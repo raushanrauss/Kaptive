@@ -1,12 +1,47 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useTable, usePagination, useGlobalFilter } from 'react-table';
+// src/DataTable.tsx
+import React, { useMemo } from 'react';
+import {
+  useTable,
+  usePagination,
+  useGlobalFilter,
+  Column,
+  Row,
+  TableInstance,
+  TableState,
+  UsePaginationInstanceProps,
+  UsePaginationState,
+  UseGlobalFiltersInstanceProps,
+  UseGlobalFiltersState,
+} from 'react-table';
+import customData from '../db.json';
 
-function GlobalFilter({
+interface DataItem {
+  Overhead: string;
+  Jan: number;
+  Feb: number;
+  March: number;
+  April: number;
+  May: number;
+  June: number;
+  July: number;
+  August: number;
+  September: number;
+  October: number;
+  November: number;
+  December: number;
+}
+
+interface GlobalFilterProps {
+  preGlobalFilteredRows: Row<DataItem>[];
+  globalFilter: string;
+  setGlobalFilter: (filterValue: string | undefined) => void;
+}
+
+const GlobalFilter: React.FC<GlobalFilterProps> = ({
   preGlobalFilteredRows,
   globalFilter,
   setGlobalFilter,
-}) {
+}) => {
   const count = preGlobalFilteredRows.length;
 
   return (
@@ -14,80 +49,79 @@ function GlobalFilter({
       <span className="text-xl font-semibold text-gray-700">Monthly Overhead Costs</span>
       <input
         value={globalFilter || ''}
-        onChange={(e) => {
-          setGlobalFilter(e.target.value || undefined);
-        }}
+        onChange={(e) => setGlobalFilter(e.target.value || undefined)}
         placeholder={`Search ${count} records...`}
         className="border border-gray-300 rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
     </div>
   );
-}
+};
 
-const DataTable = () => {
-  const [allData, setAllData] = useState([]);
+const DataTable: React.FC = () => {
+  const data: DataItem[] = customData.Sheet1;
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/Sheet1')
-      .then((res) => setAllData(res.data));
-  }, []);
-
-  const data = React.useMemo(() => allData, [allData]);
-
-  const columns = React.useMemo(
+  const columns: Column<DataItem>[] = useMemo(
     () => [
-      {
-        Header: 'Overhead',
-        accessor: 'Overhead',
-      },
+      { Header: 'Overhead', accessor: 'Overhead' },
       {
         Header: 'Jan',
         accessor: 'Jan',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'Feb',
         accessor: 'Feb',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'March',
         accessor: 'March',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'April',
         accessor: 'April',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'May',
         accessor: 'May',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'June',
         accessor: 'June',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'July',
         accessor: 'July',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'August',
         accessor: 'August',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'September',
         accessor: 'September',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'October',
         accessor: 'October',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'November',
         accessor: 'November',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
         Header: 'December',
         accessor: 'December',
+        Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
     ],
     []
@@ -107,19 +141,24 @@ const DataTable = () => {
     nextPage,
     previousPage,
     setPageSize,
-    state,
     preGlobalFilteredRows,
     setGlobalFilter,
     state: { pageIndex, pageSize, globalFilter },
-  } = useTable(
+  } = useTable<DataItem>(
     {
       columns,
       data,
-      initialState: { pageIndex: 0 },
+      initialState: { pageIndex: 0, pageSize: 5 },
     },
     useGlobalFilter,
     usePagination
-  );
+  ) as TableInstance<DataItem> & UsePaginationInstanceProps<DataItem> & UseGlobalFiltersInstanceProps<DataItem>;
+
+  const state = {
+    pageIndex,
+    pageSize,
+    globalFilter,
+  } as TableState<DataItem> & UsePaginationState<DataItem> & UseGlobalFiltersState<DataItem>;
 
   return (
     <div className="container mx-auto p-4">
@@ -214,7 +253,7 @@ const DataTable = () => {
           onChange={(e) => setPageSize(Number(e.target.value))}
           className="ml-2 border border-gray-300 rounded-md shadow-sm px-2 py-1"
         >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
+          {[5, 10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>

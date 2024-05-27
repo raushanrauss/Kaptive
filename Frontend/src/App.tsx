@@ -4,6 +4,7 @@ import './App.css'
 import './index.css';
 
 import SidebarWithHeader from './Sidebar/Sidebar'
+import DataTable from './Component/Tables';
 
 
 

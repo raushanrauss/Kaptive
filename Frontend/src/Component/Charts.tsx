@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from "react";
+
 import { Bar } from "react-chartjs-2";
-import axios from "axios";
+import customData from '../db.json';
+import { useState } from "react";
 
 const LargeDatasetChart = () => {
-  const [allData, setAllData] = useState([]);
+  const allData=customData.Sheet1;
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/Sheet1")
-      .then((res) => setAllData(res.data))
-      .catch((error) => console.error(error));
-  }, []);
+ 
 
   const handleSearch = (e) => {
     setSearch(e.target.value);

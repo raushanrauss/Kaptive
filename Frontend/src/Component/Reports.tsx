@@ -1,45 +1,63 @@
-// src/components/SalesChart.js
+// src/ProgressReport.tsx
+import React from 'react';
+import { Radar } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+import customData from '../db.json';
+const allData=customData.Sheet1.slice(1,5);
+Chart.register(...registerables);
 
-import React, { useEffect, useState } from 'react';
-import { Bar, Line, Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement, ArcElement } from 'chart.js';
-import axios from 'axios';
+const ProgressReport: React.FC = () => {
+  const labels = ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement, ArcElement);
+  const datasets = allData.map((item) => ({
+    label: item.Overhead,
+    data: [
+      item.Jan, item.Feb, item.March, item.April, item.May, item.June,
+      item.July, item.August, item.September, item.October, item.November, item.December
+    ],
+    backgroundColor: getRandomColor(0.2),
+    borderColor: getRandomColor(1),
+    borderWidth: 1,
+  }));
 
-const SalesChart = ({  chartType }) => {
-    const DataTable = () => {
-        const [allData, setAllData] = useState([]);
-      
-        useEffect(() => {
-          axios
-            .get('http://localhost:3001/Sheet1')
-            .then((res) => setAllData(res.data));
-        }, []);
-        const data=allData;
+  const data = {
+    labels,
+    datasets
+  };
+
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'top' as const,
       },
       title: {
         display: true,
-        text: 'Sales Data',
-      },
+        text: 'Monthly Overhead Costs Progress Report'
+      }
     },
+    scales: {
+      r: {
+        angleLines: {
+          display: false
+        },
+        suggestedMin: 0,
+      }
+    }
   };
 
-  const chartComponents = {
-    bar: Bar,
-    line: Line,
-    pie: Pie,
-  };
-
-  const ChartComponent = chartComponents[chartType];
-
-  return <ChartComponent data={data} options={options} />;
+  return (
+    <div className="container mx-auto p-4">
+      <Radar data={data} options={options} />
+    </div>
+  );
 };
-}
-export default SalesChart;
 
+const getRandomColor = (opacity: number) => {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+
+export default ProgressReport;
