@@ -3,7 +3,7 @@ import { Bar } from "react-chartjs-2";
 import customData from '../db.json';
 import { useState } from "react";
 import { ChangeEvent } from 'react';
-
+import { ChartOptions } from 'chart.js';
 const LargeDatasetChart = () => {
   const allData=customData.Sheet1;
   const [search, setSearch] = useState("");
@@ -47,18 +47,19 @@ const LargeDatasetChart = () => {
     })),
   };
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
+        position: 'top', // Use one of the allowed string literals
       },
       title: {
         display: true,
-        text: "Monthly Overhead Costs",
+        text: 'Chart Title',
       },
     },
   };
+  
 
   const visiblePageNumbers = Array.from(
     { length: Math.min(totalPages, 5) },

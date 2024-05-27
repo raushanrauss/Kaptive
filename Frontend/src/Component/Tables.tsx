@@ -13,6 +13,7 @@ import {
   UseGlobalFiltersInstanceProps,
   
 } from "react-table";
+
 import customData from "../db.json";
 
 interface DataItem {
@@ -29,11 +30,13 @@ interface DataItem {
   October: number;
   November: number;
   December: number;
+ 
+
 }
 
 interface GlobalFilterProps {
   preGlobalFilteredRows: Row<DataItem>[];
-  globalFilter: string;
+  globalFilter: string | number;
   setGlobalFilter: (filterValue: string | undefined) => void;
 }
 
@@ -150,7 +153,7 @@ const DataTable: React.FC = () => {
     {
       columns,
       data,
-      initialState: { pageIndex: 0, pageSize: 5 },
+      // initialState: { pageIndex: 0, pageSize: 5 },
     },
     useGlobalFilter,
     usePagination
