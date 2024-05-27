@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+
 import {
   IconButton,
   Avatar,
@@ -26,7 +26,7 @@ import {
   FiTrendingUp,
   FiCompass,
   FiStar,
-  FiSettings,
+ 
   FiMenu,
   FiBell,
   FiChevronDown,

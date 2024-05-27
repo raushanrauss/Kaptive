@@ -1,5 +1,7 @@
 // src/DataTable.tsx
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
+declare module 'react-table';
+
 import {
   useTable,
   usePagination,
@@ -7,13 +9,11 @@ import {
   Column,
   Row,
   TableInstance,
-  TableState,
   UsePaginationInstanceProps,
-  UsePaginationState,
   UseGlobalFiltersInstanceProps,
-  UseGlobalFiltersState,
-} from 'react-table';
-import customData from '../db.json';
+  
+} from "react-table";
+import customData from "../db.json";
 
 interface DataItem {
   Overhead: string;
@@ -46,9 +46,11 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({
 
   return (
     <div className="flex justify-between items-center mb-4">
-      <span className="text-xl font-semibold text-gray-700">Monthly Overhead Costs</span>
+      <span className="text-xl font-semibold text-gray-700">
+        Monthly Overhead Costs
+      </span>
       <input
-        value={globalFilter || ''}
+        value={globalFilter || ""}
         onChange={(e) => setGlobalFilter(e.target.value || undefined)}
         placeholder={`Search ${count} records...`}
         className="border border-gray-300 rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -62,65 +64,65 @@ const DataTable: React.FC = () => {
 
   const columns: Column<DataItem>[] = useMemo(
     () => [
-      { Header: 'Overhead', accessor: 'Overhead' },
+      { Header: "Overhead", accessor: "Overhead" },
       {
-        Header: 'Jan',
-        accessor: 'Jan',
+        Header: "Jan",
+        accessor: "Jan",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'Feb',
-        accessor: 'Feb',
+        Header: "Feb",
+        accessor: "Feb",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'March',
-        accessor: 'March',
+        Header: "March",
+        accessor: "March",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'April',
-        accessor: 'April',
+        Header: "April",
+        accessor: "April",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'May',
-        accessor: 'May',
+        Header: "May",
+        accessor: "May",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'June',
-        accessor: 'June',
+        Header: "June",
+        accessor: "June",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'July',
-        accessor: 'July',
+        Header: "July",
+        accessor: "July",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'August',
-        accessor: 'August',
+        Header: "August",
+        accessor: "August",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'September',
-        accessor: 'September',
+        Header: "September",
+        accessor: "September",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'October',
-        accessor: 'October',
+        Header: "October",
+        accessor: "October",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'November',
-        accessor: 'November',
+        Header: "November",
+        accessor: "November",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
       {
-        Header: 'December',
-        accessor: 'December',
+        Header: "December",
+        accessor: "December",
         Cell: ({ value }: { value: number }) => value.toFixed(2),
       },
     ],
@@ -152,13 +154,9 @@ const DataTable: React.FC = () => {
     },
     useGlobalFilter,
     usePagination
-  ) as TableInstance<DataItem> & UsePaginationInstanceProps<DataItem> & UseGlobalFiltersInstanceProps<DataItem>;
-
-  const state = {
-    pageIndex,
-    pageSize,
-    globalFilter,
-  } as TableState<DataItem> & UsePaginationState<DataItem> & UseGlobalFiltersState<DataItem>;
+  ) as TableInstance<DataItem> &
+    UsePaginationInstanceProps<DataItem> &
+    UseGlobalFiltersInstanceProps<DataItem>;
 
   return (
     <div className="container mx-auto p-4">
@@ -168,7 +166,10 @@ const DataTable: React.FC = () => {
         setGlobalFilter={setGlobalFilter}
       />
       <div className="overflow-x-auto">
-        <table {...getTableProps()} className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+        <table
+          {...getTableProps()}
+          className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md"
+        >
           <thead className="bg-indigo-600 text-white">
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
@@ -177,7 +178,7 @@ const DataTable: React.FC = () => {
                     {...column.getHeaderProps()}
                     className="p-3 text-left text-xs font-semibold tracking-wide uppercase"
                   >
-                    {column.render('Header')}
+                    {column.render("Header")}
                   </th>
                 ))}
               </tr>
@@ -189,8 +190,11 @@ const DataTable: React.FC = () => {
               return (
                 <tr {...row.getRowProps()} className="hover:bg-gray-100">
                   {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()} className="p-3 text-sm text-gray-700 border-t border-gray-200">
-                      {cell.render('Cell')}
+                    <td
+                      {...cell.getCellProps()}
+                      className="p-3 text-sm text-gray-700 border-t border-gray-200"
+                    >
+                      {cell.render("Cell")}
                     </td>
                   ))}
                 </tr>
@@ -206,38 +210,38 @@ const DataTable: React.FC = () => {
             disabled={!canPreviousPage}
             className="px-3 py-1 border border-gray-300 rounded-md shadow-sm disabled:opacity-50"
           >
-            {'<<'}
+            {"<<"}
           </button>
           <button
             onClick={() => previousPage()}
             disabled={!canPreviousPage}
             className="px-3 py-1 border border-gray-300 rounded-md shadow-sm disabled:opacity-50"
           >
-            {'<'}
+            {"<"}
           </button>
           <button
             onClick={() => nextPage()}
             disabled={!canNextPage}
             className="px-3 py-1 border border-gray-300 rounded-md shadow-sm disabled:opacity-50"
           >
-            {'>'}
+            {">"}
           </button>
           <button
             onClick={() => gotoPage(pageCount - 1)}
             disabled={!canNextPage}
             className="px-3 py-1 border border-gray-300 rounded-md shadow-sm disabled:opacity-50"
           >
-            {'>>'}
+            {">>"}
           </button>
         </div>
         <span className="text-sm">
-          Page{' '}
+          Page{" "}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>
         </span>
         <span className="flex items-center">
-          | Go to page:{' '}
+          | Go to page:{" "}
           <input
             type="number"
             defaultValue={pageIndex + 1}

@@ -1,25 +1,14 @@
-import { useState } from 'react'
+import "./App.css";
+import "./index.css";
 
-import './App.css'
-import './index.css';
-
-import SidebarWithHeader from './Sidebar/Sidebar'
-import DataTable from './Component/Tables';
-
-
+import SidebarWithHeader from "./Sidebar/Sidebar";
 
 function App() {
- 
-
   return (
     <>
-  
-<SidebarWithHeader />
-
-
-
+      <SidebarWithHeader />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

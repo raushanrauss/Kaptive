@@ -2,6 +2,7 @@
 import { Bar } from "react-chartjs-2";
 import customData from '../db.json';
 import { useState } from "react";
+import { ChangeEvent } from 'react';
 
 const LargeDatasetChart = () => {
   const allData=customData.Sheet1;
@@ -11,9 +12,9 @@ const LargeDatasetChart = () => {
 
  
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearch(e.target.value);
-    setCurrentPage(1); // Reset current page when search changes
+    setCurrentPage(1);
   };
 
   const filteredData = allData.filter((entry) =>
@@ -23,9 +24,10 @@ const LargeDatasetChart = () => {
   const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const handlePagination = (page) => {
+  const handlePagination = (page: number): void => {
     setCurrentPage(page);
   };
+  
 
   const paginatedData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
