@@ -1,7 +1,4 @@
-// src/DataTable.tsx
 import React, { useMemo } from "react";
-declare module 'react-table';
-
 import {
   useTable,
   usePagination,
@@ -11,9 +8,9 @@ import {
   TableInstance,
   UsePaginationInstanceProps,
   UseGlobalFiltersInstanceProps,
-  
+  UsePaginationState,
+  UseGlobalFiltersState,
 } from "react-table";
-
 import customData from "../db.json";
 
 interface DataItem {
@@ -30,13 +27,11 @@ interface DataItem {
   October: number;
   November: number;
   December: number;
- 
-
 }
 
 interface GlobalFilterProps {
   preGlobalFilteredRows: Row<DataItem>[];
-  globalFilter: string | number;
+  globalFilter: string;
   setGlobalFilter: (filterValue: string | undefined) => void;
 }
 
@@ -63,7 +58,7 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({
 };
 
 const DataTable: React.FC = () => {
-  const data: DataItem[] = customData.Sheet1;
+  const data: DataItem[] = useMemo(() => customData.Sheet1, []);
 
   const columns: Column<DataItem>[] = useMemo(
     () => [
@@ -153,13 +148,15 @@ const DataTable: React.FC = () => {
     {
       columns,
       data,
-      // initialState: { pageIndex: 0, pageSize: 5 },
+      // initialState: {  pageSize: 5 },
     },
     useGlobalFilter,
     usePagination
   ) as TableInstance<DataItem> &
     UsePaginationInstanceProps<DataItem> &
-    UseGlobalFiltersInstanceProps<DataItem>;
+    UseGlobalFiltersInstanceProps<DataItem> & {
+      state: UsePaginationState<DataItem> & UseGlobalFiltersState<DataItem>;
+    };
 
   return (
     <div className="container mx-auto p-4">
