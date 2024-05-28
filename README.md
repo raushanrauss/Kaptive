@@ -14,7 +14,7 @@ Frontend
 
 ## Deployed link :- 
 
-Frontend :- https://rurux-3k8x.vercel.app/ <br>
+Frontend :- https://kaptive-seven.vercel.app/ <br>
 
 
 ## Features 
