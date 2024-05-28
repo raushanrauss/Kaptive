@@ -39,8 +39,9 @@ Frontend :- https://kaptive-seven.vercel.app/ <br>
 
 ```bash
 clone the repo
-cd into Rerux
+cd into Kaptive
 npm run install
+cd Frontend
 npm run dev to start the frontend
 ```
 
